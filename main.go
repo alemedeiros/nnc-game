@@ -48,24 +48,32 @@ func main() {
 	g = nnc.New(n)
 
 	for {
-		var i, j int
 		var end bool
 		var err error
+		var curr byte
 
 		// Print board status
 		printBoard(g.Board())
 
 		// Outcome functions for debug purpose only
-		fmt.Println("Outcome(X):", g.Outcome(nnc.Cross))
-		fmt.Println("Outcome(O):", g.Outcome(nnc.Nought))
+		//fmt.Println("Outcome(X):", g.Outcome(nnc.Cross))
+		//fmt.Println("Outcome(O):", g.Outcome(nnc.Nought))
 
-		// Get coordinates from player
-		curr := g.CurrentPlayer()
-		fmt.Printf("Player %c enter your coordinates: ", curr)
-		fmt.Scan(&i, &j)
+		curr = g.CurrentPlayer()
 		fmt.Println()
 
-		end, win, err = g.Play(i, j, curr)
+		if curr == nnc.Cross {
+			// Uncomment for a human player. (TODO: add option for human player)
+			//var i, j int
+			//fmt.Printf("Player %c enter your coordinates: ", curr)
+			//fmt.Scanln(&i, &j)
+			//fmt.Println()
+			//end, win, err = g.Play(i, j, curr)
+
+			end, win, err = g.PlayAI(curr)
+		} else {
+			end, win, err = g.PlayAI(curr)
+		}
 
 		// Check for errors
 		if err != nil {
@@ -83,6 +91,8 @@ func main() {
 
 	// Print final board status.
 	printBoard(g.Board())
+	//fmt.Println("Outcome(X):", g.Outcome(nnc.Cross))
+	//fmt.Println("Outcome(O):", g.Outcome(nnc.Nought))
 
 	// Show winner
 	switch win {
