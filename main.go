@@ -59,10 +59,6 @@ func main() {
 		// Print board status
 		printBoard(g.Board())
 
-		// Outcome functions for debug purpose only
-		//fmt.Println("Outcome(X):", g.Outcome(nnc.Cross))
-		//fmt.Println("Outcome(O):", g.Outcome(nnc.Nought))
-
 		curr = g.CurrentPlayer()
 		fmt.Println()
 
@@ -95,8 +91,6 @@ func main() {
 
 	// Print final board status.
 	printBoard(g.Board())
-	//fmt.Println("Outcome(X):", g.Outcome(nnc.Cross))
-	//fmt.Println("Outcome(O):", g.Outcome(nnc.Nought))
 
 	// Show winner
 	switch win {
