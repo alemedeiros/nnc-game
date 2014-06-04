@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"runtime"
 
 	"github.com/alemedeiros/nnc"
 )
@@ -41,6 +42,9 @@ func main() {
 	var g nnc.Game
 	var n int
 	var win byte
+
+	// Configure runtime max processors to use all processors.
+	runtime.GOMAXPROCS(runtime.NumCPU())
 
 	// Get board size from input and instantiates new game.
 	fmt.Print("Size of the board: ")
