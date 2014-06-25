@@ -1,10 +1,21 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 
 	"github.com/alemedeiros/nnc"
 )
+
+// Flag variables
+var human bool
+var serial bool
+
+// Set command line flags
+func initFlags() {
+	flag.BoolVar(&human, "human", false, "Human player for Cross")
+	flag.BoolVar(&serial, "serial", false, "Serial AI functions are used instead")
+}
 
 // printBoard prints board to stdin.
 func printBoard(board [][]byte) {
@@ -42,6 +53,9 @@ func main() {
 	var n int
 	var win byte
 
+	initFlags()
+	flag.Parse()
+
 	// Get board size from input and instantiates new game.
 	fmt.Print("Size of the board: ")
 	fmt.Scan(&n)
@@ -59,16 +73,30 @@ func main() {
 		fmt.Println()
 
 		if curr == nnc.Cross {
-			// Uncomment for a human player. (TODO: add option for human player)
-			//var i, j int
-			//fmt.Printf("Player %c enter your coordinates: ", curr)
-			//fmt.Scanln(&i, &j)
-			//fmt.Println()
-			//end, win, err = g.Play(i, j, curr)
+			if human {
+				var i, j int
 
-			end, win, err = g.PlayAI(curr)
+				// Get Human player move
+				fmt.Printf("Player %c enter your coordinates: ", curr)
+				fmt.Scanln(&i, &j)
+				fmt.Println()
+
+				end, win, err = g.Play(i, j, curr)
+			} else {
+				// AI Player
+				if serial {
+					end, win, err = g.PlayAISerial(curr)
+				} else {
+					end, win, err = g.PlayAI(curr)
+				}
+			}
 		} else {
-			end, win, err = g.PlayAI(curr)
+			// Nought is always AI Player
+			if serial {
+				end, win, err = g.PlayAISerial(curr)
+			} else {
+				end, win, err = g.PlayAI(curr)
+			}
 		}
 
 		// Check for errors
